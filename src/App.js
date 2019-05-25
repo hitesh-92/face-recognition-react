@@ -80,6 +80,7 @@ class App extends Component{
         />
         <FaceRecognition
           imageUrl={this.state.imageUrl}
+          box={this.state.box}
         />
 
       </div>
