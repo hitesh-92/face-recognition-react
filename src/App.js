@@ -92,7 +92,7 @@ class App extends Component{
           isSignedIn={isSignedIn}
         />
 
-        { this.state.route === 'home' ?
+        { route === 'home' ?
             <div>
             <Logo />
             <Rank />
@@ -107,7 +107,7 @@ class App extends Component{
           </div>
           :
           (
-            this.state.route === 'signin' ?
+            route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} />
             :
             <Register onRouteChange={this.onRouteChange} />
