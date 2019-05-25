@@ -24,12 +24,33 @@ class App extends Component{
     super();
     this.state = {
       input: '',
-      imageUrl: ''
+      imageUrl: '',
+      box: {}
     }
   }
 
   onInputChange = ( {target: {value}} ) => {
     this.setState({input: value})
+  }
+
+  calculateFaceLocation = (data) => {
+    const clariFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    // console.log(width, height)
+    return {
+      top: clariFace.top_row * height,
+      right: width - (clariFace.right_col * width),
+      bottom: height - (clariFace.bottom_row * height),
+      left: clariFace.left_col * width
+    }
+  }
+
+  displayFaceBox = (box) => {
+    this.setState({ box })
+    console.log('workkkking')
+    console.log(box)
   }
 
   onButtonSubmit = () => {
@@ -40,15 +61,11 @@ class App extends Component{
       Clarifai.FACE_DETECT_MODEL,
       this.state.input
     )
-    .then(
-    function(response) {
-      console.log( response.outputs[0].data.regions[0].region_info.bounding_box )
-    },
-    function(err) {
-      console.log('clarifai api Err')
-    }
-  );
+    .then(this.calculateFaceLocation)
+    .then(this.displayFaceBox)
+    .catch(err => console.log('clarifai api Err', err) );
   }
+
 
   render(){
     return (
