@@ -75,7 +75,6 @@ class App extends Component{
     this.setState({ route })
   }
 
-
   render(){
     const {
       isSignedIn,
