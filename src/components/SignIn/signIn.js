@@ -40,11 +40,8 @@ class SignIn extends Component {
     .then(res => res.json())
     .then( ({signedIn, user}) => {
 
-      console.log('SIGNIN:: user ---- ', user)
-
       if(signedIn) {
         this.props.loadUser(user)
-        // console.log('USER SIGNED IN', '\nsignedIn::', signedIn, '\nuser::',user)
         this.props.onRouteChange('home')
       }
 

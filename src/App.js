@@ -101,8 +101,13 @@ class App extends Component{
       return fetch(url, options).then(res => res.json())
 
     })
-    .then(response => {
-      console.log(`the response::::\n${response}`)
+    .then(entries => {
+      console.log(`the response::::\n${entries}`)
+
+      if (entries){
+        this.setState( Object.assign(this.state.user, {entries}) );
+      }
+
     })
     .catch(err => console.log('clarifai api Err', err) );
   }
