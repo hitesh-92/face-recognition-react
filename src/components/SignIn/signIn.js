@@ -38,9 +38,15 @@ class SignIn extends Component {
 
     fetch(url, signInOptions)
     .then(res => res.json())
-    .then( ({signedIn}) => {
+    .then( ({signedIn, user}) => {
 
-      if(signedIn) this.props.onRouteChange('home')
+      console.log('SIGNIN:: user ---- ', user)
+
+      if(signedIn) {
+        this.props.loadUser(user)
+        // console.log('USER SIGNED IN', '\nsignedIn::', signedIn, '\nuser::',user)
+        this.props.onRouteChange('home')
+      }
 
     })
     .catch(console.log);
@@ -58,7 +64,7 @@ class SignIn extends Component {
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
             <legend className="f2 fw6 ph0 mh0">Sign In</legend>
             <div className="mt3">
-              <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+              <label className="db fw6 lh-copy f6" htmlFor="email-address">Email <br /> alice@mail.com</label>
               <input
                 onChange={this.onEmailChange}
                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
@@ -68,7 +74,7 @@ class SignIn extends Component {
               />
             </div>
             <div className="mv3">
-              <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+              <label className="db fw6 lh-copy f6" htmlFor="password">Password <br /> ALICE</label>
               <input
                 onChange={this.onPasswordChange}
                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
