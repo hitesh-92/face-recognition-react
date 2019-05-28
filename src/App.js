@@ -87,9 +87,6 @@ class App extends Component{
     .then(this.displayFaceBox)
     .then(() => {
 
-      console.log('AFTER displayFaceBox')
-      console.log('STATE::', this.state)
-
       const data = { id: this.state.user.id }
       const url = 'http://localhost:5000/image';
       const options = {
@@ -102,7 +99,6 @@ class App extends Component{
 
     })
     .then(entries => {
-      console.log(`the response::::\n${entries}`)
 
       if (entries){
         this.setState( Object.assign(this.state.user, {entries}) );

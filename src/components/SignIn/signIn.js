@@ -39,10 +39,14 @@ class SignIn extends Component {
     fetch(url, signInOptions)
     .then(res => res.json())
     .then( (user) => {
+      console.log(typeof user, user)
 
-      if(typeof user != 'string') {
+      if(user.id) {
         this.props.loadUser(user)
         this.props.onRouteChange('home')
+      } else {
+        console.log('sign in error')
+        console.log(user)
       }
 
     })
