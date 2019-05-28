@@ -39,7 +39,6 @@ class SignIn extends Component {
     fetch(url, signInOptions)
     .then(res => res.json())
     .then( (user) => {
-      console.log(typeof user, user)
 
       if(user.id) {
         this.props.loadUser(user)
