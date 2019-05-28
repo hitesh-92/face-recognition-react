@@ -38,9 +38,9 @@ class SignIn extends Component {
 
     fetch(url, signInOptions)
     .then(res => res.json())
-    .then( ({signedIn, user}) => {
+    .then( (user) => {
 
-      if(signedIn) {
+      if(typeof user != 'string') {
         this.props.loadUser(user)
         this.props.onRouteChange('home')
       }
