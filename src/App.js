@@ -7,12 +7,7 @@ import FaceRecognition from './components/FaceRecognition/faceRecognition';
 import SignIn from './components/SignIn/signIn';
 import Register from './components/Register/register';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import './App.css';
-
-const clarifai = new Clarifai.App({
- apiKey: 'f22f7817782c4db1b5c24c1cc1b71e6f'
-});
 
 const particleOps = {
   particles: {
@@ -59,16 +54,18 @@ class App extends Component{
   }
 
   calculateFaceLocation = (data) => {
-    const clariFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    console.log('calceFaceLocation func ' ,data)
+    // const clariFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const clariFace = data
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
     return {
-      top: clariFace.top_row * height,
-      right: width - (clariFace.right_col * width),
-      bottom: height - (clariFace.bottom_row * height),
-      left: clariFace.left_col * width
+      top: clariFace.top * height,
+      right: width - (clariFace.right * width),
+      bottom: height - (clariFace.bottom * height),
+      left: clariFace.left * width
     }
   }
 
@@ -76,16 +73,23 @@ class App extends Component{
     this.setState({ box })
   }
 
-  onButtonSubmit = () => {
+  onButtonSubmit = async () => {
 
-    this.setState({imageUrl: this.state.input})
+    await this.setState({imageUrl: this.state.input})
+    console.log('--init--')
+    console.log(this.state.imageUrl || 'no input!!!!!!!!!!!!!!!!')
 
-    clarifai.models.predict(
-      Clarifai.FACE_DETECT_MODEL,
-      this.state.input
+    fetch(
+      'http://localhost:5000/imageurl',
+      {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({input: this.state.imageUrl})
+      }
     )
-    .then(this.calculateFaceLocation)
-    .then(this.displayFaceBox)
+    .then(res => res.json())
+    .then(data => { console.log('calculateFaceLocation', data) ; return this.calculateFaceLocation(data) })
+    .then(data => { console.log('displayFaceBox', data) ; return this.displayFaceBox(data) })
     .then(() => {
 
       const data = { id: this.state.user.id }
@@ -99,14 +103,13 @@ class App extends Component{
       return fetch(url, options).then(res => res.json())
 
     })
-    .then(entries => {
-
+    .then(function(entries) {
       if (entries){
         this.setState( Object.assign(this.state.user, {entries}) );
       }
-
     })
-    .catch(err => console.log('clarifai api Err', err) );
+    .catch(err => console.log('from API:', err) );
+
   }
 
   onRouteChange = (route) => {
