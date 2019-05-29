@@ -2,7 +2,7 @@ import React from 'react';
 import './faceRecognition.css'
 
 const FaceRecognition = ({
-  imageUrl, box
+  imageUrl, boxes
   // {
   //   top,
   //   right,
@@ -10,7 +10,6 @@ const FaceRecognition = ({
   //   left
   // }
 }) => {
-  const {top, right, bottom, left} = box
   return (
     <div className='center ma'>
       <div className='absolute mt4'>
@@ -21,11 +20,21 @@ const FaceRecognition = ({
           height='auto'
           id='inputimage'
         />
-        <div
-          className='bounding-box'
-          style={{ top, right, bottom, left }}
-        >
-        </div>
+
+        {
+          boxes.map( (box, i) => {
+            const {top, right, bottom, left} = box
+            return(
+              <div
+                className='bounding-box'
+                style={{ top, right, bottom, left }}
+                key={i}
+              ></div>
+            )
+
+          })
+        }
+
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const particleOps = {
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  boxes: [],
   route: 'signin',
   isSignedIn: false,
     user: {
@@ -53,23 +53,35 @@ class App extends Component{
     this.setState({input: value})
   }
 
-  calculateFaceLocation = (data) => {
-    const clariFace = data
+  calculateFaceLocations = (data) => {
+    // console.log('DATA:::: ', data)
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
-    return {
-      top: clariFace.top * height,
-      right: width - (clariFace.right * width),
-      bottom: height - (clariFace.bottom * height),
-      left: clariFace.left * width
-    }
+    return data.map( ({region_info :{bounding_box}}) => {
+      // console.log('------------------------------', bounding_box);
+
+      const {
+        bottom_row,
+        left_col,
+        right_col,
+        top_row
+      } = bounding_box;
+
+      return {
+        top: top_row * height,
+        right: width - (right_col * width),
+        bottom: height - (bottom_row * height),
+        left: left_col * width
+      }
+
+    });
+
   }
 
-  displayFaceBox = (box) => {
-    this.setState({ box })
-    console.log('displayFaceBox set')
+  displayFaceBoxes = (boxes) => {
+    this.setState({ boxes })
   }
 
   onButtonSubmit = () => {
@@ -93,8 +105,8 @@ class App extends Component{
     .then(res => {
       return res.json()
     })
-    .then(data => this.calculateFaceLocation(data) )
-    .then(data => this.displayFaceBox(data) )
+    .then(data => this.calculateFaceLocations(data) )
+    .then(data => this.displayFaceBoxes(data) )
     .then(() => {
       const data = { id: this.state.user.id }
       const url = 'http://localhost:5000/image';
@@ -128,7 +140,7 @@ class App extends Component{
       isSignedIn,
       imageUrl,
       route,
-      box
+      boxes
     } = this.state;
 
     return (
@@ -152,7 +164,7 @@ class App extends Component{
               />
               <FaceRecognition
                 imageUrl={imageUrl}
-                box={box}
+                boxes={boxes}
             />
           </div>
           :
