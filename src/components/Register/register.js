@@ -42,8 +42,10 @@ class Register extends Component {
     fetch(url, signInOptions)
     .then(res => res.json())
     .then( user => {
-      this.props.loadUser(user)
-      this.props.onRouteChange('home');
+      if(user.id){
+        this.props.loadUser(user)
+        this.props.onRouteChange('home');
+      }
     })
     .catch(console.log);
 
