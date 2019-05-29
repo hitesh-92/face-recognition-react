@@ -54,8 +54,6 @@ class App extends Component{
   }
 
   calculateFaceLocation = (data) => {
-    console.log('calceFaceLocation func ' ,data)
-    // const clariFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const clariFace = data
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
@@ -71,27 +69,33 @@ class App extends Component{
 
   displayFaceBox = (box) => {
     this.setState({ box })
+    console.log('displayFaceBox set')
   }
 
-  onButtonSubmit = async () => {
+  onButtonSubmit = () => {
 
-    await this.setState({imageUrl: this.state.input})
-    console.log('--init--')
-    console.log(this.state.imageUrl || 'no input!!!!!!!!!!!!!!!!')
+    const inputUrl = this.state.input
 
+    this.setState({imageUrl: inputUrl})
+
+    // console.log('inputUrl set::', inputUrl || 'error setting imageUrl')
+
+    const inputData = JSON.stringify({input: inputUrl})
+    // console.log('inputData:', inputData)
     fetch(
       'http://localhost:5000/imageurl',
       {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({input: this.state.imageUrl})
+        body: inputData
       }
     )
-    .then(res => res.json())
-    .then(data => { console.log('calculateFaceLocation', data) ; return this.calculateFaceLocation(data) })
-    .then(data => { console.log('displayFaceBox', data) ; return this.displayFaceBox(data) })
+    .then(res => {
+      return res.json()
+    })
+    .then(data => this.calculateFaceLocation(data) )
+    .then(data => this.displayFaceBox(data) )
     .then(() => {
-
       const data = { id: this.state.user.id }
       const url = 'http://localhost:5000/image';
       const options = {
@@ -103,7 +107,7 @@ class App extends Component{
       return fetch(url, options).then(res => res.json())
 
     })
-    .then(function(entries) {
+    .then((entries) => {
       if (entries){
         this.setState( Object.assign(this.state.user, {entries}) );
       }
