@@ -36,12 +36,13 @@ class Profile extends Component{
       <article className="br2 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-2 center br2 bg-white">
         <main className="pa4 black-80 w-80">
           <img src='http://tachyons.io/img/logo.jpg' className='br-100 ba h3 w3 dib' alt='dropDown' />
-          <h2>{user.name}</h2>
+          <h2>{this.state.name || user.name}</h2>
           <h4>{`Images submitted: ${user.entries}`}</h4>
           <p>{`Joined: ${new Date(user.joined).toLocaleDateString()}`}</p>
 
           <label className='mt2 fw6' htmlFor='user-name'>Name:</label>
           <input
+            onChange={this.onFormChange}
             className='pa2 ba w-100'
             placeholder="Name"
             name='user-name'
@@ -50,6 +51,7 @@ class Profile extends Component{
 
           <label className='mt2 fw6' htmlFor='user-name'>Age:</label>
           <input
+            onChange={this.onFormChange}
             className='pa2 ba w-100'
             placeholder="20"
             name='user-age'
