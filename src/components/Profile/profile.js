@@ -28,8 +28,26 @@ class Profile extends Component{
 
   }
 
+  onProfileUpdate = (data) => {
+    const url = `http://localhost:5000/profile/${this.props.user.id}`;
+    const ops = {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({formInput: data})
+    }
+
+    fetch(url, ops)
+    .then(res => {
+      this.props.toggleModal();
+      this.props.loadUser({...this.props.user, ...data});
+    })
+    .catch(err => console.log(err))
+
+  }
+
   render(){
     const {user} = this.props;
+    const {name, age} = this.state;
     return(
       <div className=' profile-modal'>
 
@@ -63,6 +81,7 @@ class Profile extends Component{
           >
             <button
               className="b pa2 grow pointer hover-white w-40 bg-light-green b--black-20"
+              onClick={() => this.onProfileUpdate({name, age})}
             >
               Save
             </button>
