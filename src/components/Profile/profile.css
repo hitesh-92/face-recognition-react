@@ -1,5 +1,5 @@
 .profile-modal{
-  background-color: rgba(255, 255, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.40);
   position: fixed;
   height: 100%;
   width: 100%;
@@ -8,4 +8,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.modal-close{
+  font-size: 3rem;
+  color: red;
+  margin:0;
+  padding: 0;
+  background-color: #ccc;
+  height: 0px;
+}
+
+.modal-close:hover{
+  color: #eaa8a8;
 }
