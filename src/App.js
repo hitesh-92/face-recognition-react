@@ -6,6 +6,8 @@ import Rank from './components/Rank/rank';
 import FaceRecognition from './components/FaceRecognition/faceRecognition';
 import SignIn from './components/SignIn/signIn';
 import Register from './components/Register/register';
+import Profile from './components/Profile/profile';
+import Modal from './components/Modal/modal';
 import Particles from 'react-particles-js';
 import './App.css';
 
@@ -21,13 +23,14 @@ const initialState = {
   boxes: [],
   route: 'signin',
   isSignedIn: false,
-    user: {
-      id: '',
-      name: '',
-      email: '',
-      entries: 0,
-      joined: ''
-    }
+  isProfileOpen: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
 }
 
 class App extends Component{
@@ -132,12 +135,20 @@ class App extends Component{
     this.setState({ route })
   }
 
+  toggleModal = () => {
+    this.setState(prevState => ({
+      ...prevState,
+      isProfileOpen: !prevState.isProfileOpen
+    }) );
+  }
+
   render(){
     const {
       isSignedIn,
       imageUrl,
       route,
-      boxes
+      boxes,
+      isProfileOpen
     } = this.state;
 
     return (
@@ -146,7 +157,14 @@ class App extends Component{
         <Navigation
           onRouteChange={this.onRouteChange}
           isSignedIn={isSignedIn}
+          toggleModal={this.toggleModal}
         />
+        {
+          isProfileOpen &&
+          <Modal>
+            <Profile isProfileOpen={isProfileOpen} toggleModal={this.toggleModal} />
+          </Modal>
+        }
 
         { route === 'home' ?
             <div>
