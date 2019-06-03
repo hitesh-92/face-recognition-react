@@ -29,7 +29,8 @@ const initialState = {
     name: '',
     email: '',
     entries: 0,
-    joined: ''
+    joined: '',
+    age: ''
   }
 }
 
@@ -162,7 +163,11 @@ class App extends Component{
         {
           isProfileOpen &&
           <Modal>
-            <Profile isProfileOpen={isProfileOpen} toggleModal={this.toggleModal} />
+            <Profile
+              isProfileOpen={isProfileOpen}
+              toggleModal={this.toggleModal}
+              user={this.state.user}
+            />
           </Modal>
         }
 
