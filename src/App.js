@@ -19,8 +19,8 @@ const initialState = {
   input: '',
   imageUrl: '',
   boxes: [],
-  route: 'home',
-  isSignedIn: true,
+  route: 'signin',
+  isSignedIn: false,
     user: {
       id: '',
       name: '',
@@ -54,13 +54,11 @@ class App extends Component{
   }
 
   calculateFaceLocations = (data) => {
-    // console.log('DATA:::: ', data)
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
 
     return data.map( ({region_info :{bounding_box}}) => {
-      // console.log('------------------------------', bounding_box);
 
       const {
         bottom_row,
@@ -90,10 +88,7 @@ class App extends Component{
 
     this.setState({imageUrl: inputUrl})
 
-    // console.log('inputUrl set::', inputUrl || 'error setting imageUrl')
-
     const inputData = JSON.stringify({input: inputUrl})
-    // console.log('inputData:', inputData)
     fetch(
       'http://localhost:5000/imageurl',
       {
@@ -129,7 +124,9 @@ class App extends Component{
   }
 
   onRouteChange = (route) => {
-    if(route === 'signout') this.setState(initialState)
+    if(route === 'signout') {
+      return this.setState(initialState)
+    }
     else if (route === 'home') this.setState({isSignedIn: true});
 
     this.setState({ route })
