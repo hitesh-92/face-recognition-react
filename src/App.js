@@ -45,8 +45,8 @@ class App extends Component{
     const token = window.sessionStorage.getItem('token');
     if( !token ) return
 
-    const url = 'http://localhost:5000/signin';
-    const options = {
+    let url = 'http://localhost:5000/signin';
+    let options = {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,31 @@ class App extends Component{
     fetch(url, options)
     .then(res => res.json())
     .then(data => {
-      if(data && data.id) console.log('componentDidMount success => ', data)
+      if(data && data.id) {
+        // console.log('componentDidMount success => ', data)
+
+        let url = `http://localhost:5000/profile/${data.id}`;
+        let options = {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorisation': token,
+            mode: 'cors'
+          }
+        }
+
+        fetch(url,options)
+        .then(res => res.json())
+        .then(user => {
+          if(user.id && user.email){
+            this.loadUser(user)
+            this.onRouteChange('home')
+          }
+
+        })
+
+
+      }
       else console.log('componentDidMount error => ', data)
     })
 

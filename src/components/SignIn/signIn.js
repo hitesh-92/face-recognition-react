@@ -40,11 +40,31 @@ class SignIn extends Component {
     fetch(url, signInOptions)
     .then(res => res.json())
     .then( data => {
-      console.log('onSubmitSignIn .then.then => ', data)
+      // console.log('onSubmitSignIn .then.then => ', data)
+
       if(data.id && data.success) {
         this.saveAuthTokenInSession(data.token)
-        this.props.loadUser(data)
-        this.props.onRouteChange('home')
+        let url = `http://localhost:5000/profile/${data.id}`;
+        let options = {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorisation': data.token,
+            mode: 'cors'
+          }
+        }
+
+        fetch(url,options)
+        .then(res => res.json())
+        .then(user => {
+          if(user.id && user.email){
+            this.props.loadUser(user)
+            this.props.onRouteChange('home')
+          }
+
+        })
+        // this.props.loadUser(data)
+        // this.props.onRouteChange('home')
       } else {
         console.log('onSubmitSignIn .catch => ', data)
       }
