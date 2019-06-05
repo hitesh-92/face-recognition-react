@@ -29,8 +29,8 @@ class SignIn extends Component {
       password: this.state.signInPassword
     }
 
-    const url = 'http://localhost:5000/signin';
-    const signInOptions = {
+    let url = 'http://localhost:5000/signin';
+    let signInOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'cors',
@@ -40,7 +40,6 @@ class SignIn extends Component {
     fetch(url, signInOptions)
     .then(res => res.json())
     .then( data => {
-      // console.log('onSubmitSignIn .then.then => ', data)
 
       if(data.id && data.success) {
         this.saveAuthTokenInSession(data.token)
@@ -63,6 +62,7 @@ class SignIn extends Component {
           }
 
         })
+        .catch(err => console.log('onSubmitSignIn .catch(profile) => ', err))
         // this.props.loadUser(data)
         // this.props.onRouteChange('home')
       } else {
@@ -70,7 +70,7 @@ class SignIn extends Component {
       }
 
     })
-    .catch(err => console.log('onSubmitSignIn fetch..catch => ', err));
+    .catch(err => console.log('onSubmitSignIn .catch(signin) => ', err));
 
   };
 
