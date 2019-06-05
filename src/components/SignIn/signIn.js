@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import './signIn.css';
 
-
-
-// const SignIn = ({onRouteChange}) => {
 class SignIn extends Component {
 
   constructor(props){
@@ -22,6 +19,10 @@ class SignIn extends Component {
     this.setState({signInPassword: event.target.value})
   }
 
+  saveAuthTokenInSession = (token) => {
+    window.sessionStorage.setItem('token', token);
+  }
+
   onSubmitSignIn = () => {
     const data = {
       email: this.state.signInEmail,
@@ -38,18 +39,18 @@ class SignIn extends Component {
 
     fetch(url, signInOptions)
     .then(res => res.json())
-    .then( (user) => {
-
-      if(user.id) {
-        this.props.loadUser(user)
+    .then( data => {
+      console.log('onSubmitSignIn .then.then => ', data)
+      if(data.id && data.success) {
+        this.saveAuthTokenInSession(data.token)
+        this.props.loadUser(data)
         this.props.onRouteChange('home')
       } else {
-        console.log('sign in error')
-        console.log(user)
+        console.log('onSubmitSignIn .catch => ', data)
       }
 
     })
-    .catch(console.log);
+    .catch(err => console.log('onSubmitSignIn fetch..catch => ', err));
 
   };
 

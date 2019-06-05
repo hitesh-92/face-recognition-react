@@ -41,6 +41,29 @@ class App extends Component{
     this.state = initialState;
   }
 
+  componentDidMount(){
+    const token = window.sessionStorage.getItem('token');
+    if( !token ) return
+
+    const url = 'http://localhost:5000/signin';
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorisation': token,
+        mode: 'cors'
+      }
+    }
+
+    fetch(url, options)
+    .then(res => res.json())
+    .then(data => {
+      if(data && data.id) console.log('componentDidMount success => ', data)
+      else console.log('componentDidMount error => ', data)
+    })
+
+  }
+
   loadUser = (userData) => {
     this.setState({
       user: {
