@@ -144,7 +144,10 @@ class App extends Component{
       'http://localhost:5000/imageurl',
       {
         method: 'post',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorisation': window.sessionStorage.getItem('token')
+        },
         body: inputData
       }
     )
@@ -158,7 +161,10 @@ class App extends Component{
       const url = 'http://localhost:5000/image';
       const options = {
         method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorisation': window.sessionStorage.getItem('token')
+        },
         body: JSON.stringify(data)
       }
 
