@@ -29,10 +29,16 @@ class Profile extends Component{
   }
 
   onProfileUpdate = (data) => {
+    const token = window.sessionStorage.getItem('token');
+    if(!token) return this.props.onRouteChange('signout');
+
     const url = `http://localhost:5000/profile/${this.props.user.id}`;
     const ops = {
       method: 'post',
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorisation': token
+      },
       body: JSON.stringify({formInput: data})
     }
 

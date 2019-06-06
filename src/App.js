@@ -135,6 +135,9 @@ class App extends Component{
 
   onButtonSubmit = () => {
 
+    const token = window.sessionStorage.getItem('token');
+    if(!token) return this.onRouteChange('signout');
+
     const inputUrl = this.state.input
 
     this.setState({imageUrl: inputUrl})
@@ -146,7 +149,7 @@ class App extends Component{
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
-          'Authorisation': window.sessionStorage.getItem('token')
+          'Authorisation': token
         },
         body: inputData
       }
@@ -163,7 +166,7 @@ class App extends Component{
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorisation': window.sessionStorage.getItem('token')
+          'Authorisation': token
         },
         body: JSON.stringify(data)
       }
@@ -221,6 +224,7 @@ class App extends Component{
               toggleModal={this.toggleModal}
               user={this.state.user}
               loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange}
             />
           </Modal>
         }
