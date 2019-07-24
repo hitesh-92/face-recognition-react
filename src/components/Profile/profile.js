@@ -32,7 +32,7 @@ class Profile extends Component{
     const token = window.sessionStorage.getItem('token');
     if(!token) return this.props.onRouteChange('signout');
 
-    const url = `http://localhost:5000/profile/${this.props.user.id}`;
+    const url = `http://35.238.214.49/profile/${this.props.user.id}`;
     const ops = {
       method: 'post',
       headers: {

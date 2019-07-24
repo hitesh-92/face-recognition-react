@@ -45,7 +45,7 @@ class App extends Component{
     const token = window.sessionStorage.getItem('token');
     if( !token ) return
 
-    let url = 'http://localhost:5000/signin';
+    let url = 'http://35.238.214.49/signin';
     let options = {
       method: 'post',
       headers: {
@@ -61,7 +61,7 @@ class App extends Component{
       if(data && data.id) {
         // console.log('componentDidMount success => ', data)
 
-        let url = `http://localhost:5000/profile/${data.id}`;
+        let url = `http://35.238.214.49/profile/${data.id}`;
         let options = {
           method: 'get',
           headers: {
@@ -144,7 +144,7 @@ class App extends Component{
 
     const inputData = JSON.stringify({input: inputUrl})
     fetch(
-      'http://localhost:5000/imageurl',
+      'http://35.238.214.49/imageurl',
       {
         method: 'post',
         headers: {
@@ -161,7 +161,7 @@ class App extends Component{
     .then(data => this.displayFaceBoxes(data) )
     .then(() => {
       const data = { id: this.state.user.id }
-      const url = 'http://localhost:5000/image';
+      const url = 'http://35.238.214.49/image';
       const options = {
         method: 'PUT',
         headers: {

@@ -31,7 +31,7 @@ class Register extends Component {
       name: this.state.registerName
     }
 
-    const url = 'http://localhost:5000/register';
+    const url = 'http://35.238.214.49/register';
     const signInOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

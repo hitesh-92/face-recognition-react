@@ -29,7 +29,7 @@ class SignIn extends Component {
       password: this.state.signInPassword
     }
 
-    let url = 'http://localhost:5000/signin';
+    let url = 'http://35.238.214.49/signin';
     let signInOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@ class SignIn extends Component {
 
       if(data.id && data.success) {
         this.saveAuthTokenInSession(data.token)
-        let url = `http://localhost:5000/profile/${data.id}`;
+        let url = `http://35.238.214.49/profile/${data.id}`;
         let options = {
           method: 'get',
           headers: {
